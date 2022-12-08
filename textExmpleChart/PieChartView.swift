@@ -101,7 +101,15 @@ public struct PieChartView: View {
                     }
                     
                 }
-                PieChartRows(colors: self.colors, names: self.names, values: self.values.map { self.formatter($0) }, percents: self.values.map { String(format: "%.0f%%", $0 * 100 / self.values.reduce(0, +)) })
+                PieChartRows(
+                    colors: self.colors,
+                    names: self.names,
+                    values: self.values.map { self.formatter($0) },
+                    percents: self.values.map {
+                        String(format: "%.0f%%", $0 * 100 / self.values.reduce(0, +))
+                    },
+                    iconNames: iconNames
+                )
             }
             .background(self.backgroundColor)
             .foregroundColor(Color.white)
@@ -115,30 +123,68 @@ struct PieChartRows: View {
     var names: [String]
     var values: [String]
     var percents: [String]
+    var iconNames: [String]
     
-    
+    let columns = [
+        GridItem(.flexible()),
+        GridItem(.flexible()),
+    ]
+
     
     var body: some View {
         var blueColor : Color = Color.fromInts(r: 41, g: 55, b: 131)
         
-        VStack{
-            ForEach(0..<self.values.count){ i in
-                HStack {
-                    RoundedRectangle(cornerRadius: 5.0)
-                        .fill(self.colors[i])
-                        .frame(width: 20, height: 20)
-                    Text(self.names[i])
-                        .foregroundColor(blueColor)
-                    Spacer()
-                    VStack(alignment: .trailing) {
-                        Text(self.values[i])
-                            .foregroundColor(blueColor)
-                        Text(self.percents[i])
-                            .foregroundColor(Color.gray)
+                LazyVGrid(columns: columns){
+                    ForEach(0..<self.values.count){ i in
+                        HStack {
+                            VStack(alignment: .leading){
+                                ZStack{
+                                    RoundedRectangle(cornerRadius: 5.0)
+                                        .fill(self.colors[i])
+                                        .frame(width: 20, height: 20)
+                                    Image(systemName:  self.iconNames[i])
+                                        .aspectRatio(contentMode: .fit)
+                                }
+                                
+                                
+                                Text(self.names[i])
+                                    .foregroundColor(blueColor)
+                            }
+                            
+                            Spacer()
+                            VStack(alignment: .trailing) {
+                                Text(self.values[i])
+                                    .foregroundColor(blueColor)
+                                Text(self.percents[i])
+                                    .foregroundColor(Color.gray)
+                            }
+                        }
+                        .padding(10)
+                        
+                        .background(Color.white)
+                        .cornerRadius(10)
                     }
                 }
-            }
-        }
+                .padding(10)
+        
+//        HStack{
+//            ForEach(0..<self.values.count){ i in
+//                HStack {
+//                    RoundedRectangle(cornerRadius: 5.0)
+//                        .fill(self.colors[i])
+//                        .frame(width: 20, height: 20)
+//                    Text(self.names[i])
+//                        .foregroundColor(blueColor)
+//                    Spacer()
+//                    VStack(alignment: .trailing) {
+//                        Text(self.values[i])
+//                            .foregroundColor(blueColor)
+//                        Text(self.percents[i])
+//                            .foregroundColor(Color.gray)
+//                    }
+//                }
+//            }
+//        }
     }
 }
 

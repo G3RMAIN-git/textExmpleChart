@@ -31,10 +31,16 @@ struct PieSlice: View {
                         )
                     )
                     
-                    path.addArc(center: CGPoint(x: width * 0.5, y: height * 0.5), radius: width * 0.5, startAngle: Angle(degrees: -90.0) + pieSliceData.startAngle + angleSpace, endAngle: Angle(degrees: -90.0) + pieSliceData.endAngle - angleSpace, clockwise: false)
+                    path.addArc(center: CGPoint(x: width * 0.5, y: height * 0.5)
+                                , radius: width * 0.5
+                                , startAngle: Angle(degrees: -90.0) + pieSliceData.startAngle + angleSpace
+                                , endAngle: Angle(degrees: -90.0) + pieSliceData.endAngle - angleSpace
+                                , clockwise: false)
+                    
                     
                 }
                 .fill(pieSliceData.color)
+                
                 
                 
                 VStack{
@@ -42,6 +48,7 @@ struct PieSlice: View {
                         //.font(.)
                     Text(pieSliceData.text)
                         .foregroundColor(Color.white.opacity(0.75))
+                    
                         
                     
                 }
